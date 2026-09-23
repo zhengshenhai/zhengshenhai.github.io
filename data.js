@@ -38,6 +38,8 @@ var SITE = {
    date 格式：YYYY-MM；link 可省略
 ------------------------------------------------------------ */
 const NEWS = [
+  { date: "2026-03", text: "一篇异常检测论文被 MICCAI 2026 接收。", link: { label: "paper code", url: "https://github.com/guyxlouspg/AnoSSPD" } },
+  { date: "2026-03", text: "一篇缺失模态脑影像分割论文论文被 MICCAI 2026 接收。", link: { label: "paper code", url: "https://github.com/CoCodeRepo/FS2R" } },
   { date: "2025-01", text: "一篇轻量化腹部多器官分割论文被 Pattern Recognition 接收。", link: { label: "论文主页", url: "https://authors.elsevier.com/sd/article/S0031-3203(25)00028-7" } },
   { date: "2024-12", text: "一篇多模态医学图像分割论文被 IEEE Transactions on Medical Imaging 接收。", link: { label: "IEEE Xplore", url: "https://ieeexplore.ieee.org/document/10845056" } },
   { date: "2024-12", text: "两篇联邦学习论文被 ICASSP 2025 接收并做口头报告。", link: { label: "会议官网", url: "https://2025.ieeeicassp.org/" } },
