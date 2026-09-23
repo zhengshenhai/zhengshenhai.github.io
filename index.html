@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>郑申海 · 个人主页 | 重庆邮电大学</title>
+<meta name="description" content="郑申海（Shenhai Zheng），重庆邮电大学计算机科学与技术学院教师，研究方向：医学图像分割、联邦学习、多模态学习。">
+<style>
+  :root{
+    --bg:#070B14;
+    --bg-2:#0B1220;
+    --panel:rgba(255,255,255,.035);
+    --panel-hover:rgba(255,255,255,.06);
+    --line:rgba(148,180,220,.14);
+    --line-strong:rgba(148,180,220,.28);
+    --ink:#E8EEF7;
+    --ink-2:#B7C4D6;
+    --muted:#7C8CA3;
+    --cyan:#38E1FF;
+    --cyan-dim:rgba(56,225,255,.12);
+    --violet:#8B7CFF;
+    --violet-dim:rgba(139,124,255,.12);
+    --amber:#FFC46B;
+    --mono:"Cascadia Code","JetBrains Mono",Consolas,"SFMono-Regular",Menlo,monospace;
+    --sans:"PingFang SC","Microsoft YaHei","HarmonyOS Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.75;
+    letter-spacing:.01em;
+    overflow-x:hidden;
+  }
+  /* 背景网格 + 光晕 */
+  .bg-deco{position:fixed;inset:0;z-index:-1;pointer-events:none;}
+  .bg-deco::before{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(120,160,220,.05) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(120,160,220,.05) 1px,transparent 1px);
+    background-size:44px 44px;
+    mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 75%);
+  }
+  .bg-deco::after{
+    content:"";position:absolute;top:-220px;left:50%;transform:translateX(-50%);
+    width:900px;height:520px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(56,225,255,.13),rgba(139,124,255,.07) 55%,transparent);
+    filter:blur(40px);
+  }
+  ::selection{background:rgba(56,225,255,.28);}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+  @media(max-width:640px){.wrap{padding:0 18px;}}
+
+  /* ---------- 导航 ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(7,11,20,.72);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:700;letter-spacing:.02em;}
+  .logo-mark{
+    width:28px;height:28px;border-radius:8px;flex:0 0 auto;
+    background:linear-gradient(135deg,var(--cyan),var(--violet));
+    display:flex;align-items:center;justify-content:center;
+    color:#04121A;font-family:var(--mono);font-size:14px;font-weight:700;
+    box-shadow:0 0 18px rgba(56,225,255,.35);
+  }
+  .logo small{font-family:var(--mono);font-weight:400;font-size:11px;color:var(--muted);display:block;line-height:1.1;}
+  .nav-links{display:flex;gap:4px;}
+  .nav-links a{
+    color:var(--ink-2);text-decoration:none;font-size:13.5px;
+    padding:7px 13px;border-radius:8px;transition:.18s;
+  }
+  .nav-links a:hover{color:var(--cyan);background:var(--cyan-dim);}
+  .nav-links a b{font-family:var(--mono);font-weight:600;color:var(--muted);margin-right:4px;font-size:11px;}
+  .nav-links a:hover b{color:var(--cyan);}
+  @media(max-width:860px){.nav-links{display:none;}}
+
+  /* ---------- 区块通用 ---------- */
+  section{padding:76px 0 8px;}
+  .sec-tag{font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.14em;margin-bottom:10px;}
+  .sec-tag::before{content:"// ";}
+  h2{font-size:26px;letter-spacing:-.01em;margin-bottom:34px;font-weight:700;}
+  h2 span{color:var(--muted);font-weight:400;font-size:14px;margin-left:12px;font-family:var(--mono);letter-spacing:0;}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:88px 0 26px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;}
+  @media(max-width:860px){.hero{grid-template-columns:1fr;padding-top:56px;}}
+  .hello{font-family:var(--mono);font-size:13px;color:var(--cyan);margin-bottom:14px;letter-spacing:.1em;}
+  h1{font-size:clamp(34px,5vw,52px);line-height:1.18;letter-spacing:-.02em;font-weight:700;margin-bottom:8px;}
+  h1 .en{display:block;font-size:.42em;color:var(--muted);font-family:var(--mono);font-weight:400;letter-spacing:.06em;margin-top:8px;}
+  .role{
+    display:inline-flex;align-items:center;gap:8px;margin:16px 0 20px;
+    font-size:14px;color:var(--ink-2);
+    border:1px solid var(--line);border-radius:999px;padding:7px 16px;
+    background:var(--panel);
+  }
+  .role i{width:7px;height:7px;border-radius:50%;background:#4ADE80;box-shadow:0 0 10px #4ADE80;animation:pulse 2.2s infinite;}
+  @keyframes pulse{50%{opacity:.35;}}
+  .bio{color:var(--ink-2);max-width:64ch;font-size:14.5px;}
+  .bio p+p{margin-top:10px;}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;}
+  .tag{
+    font-family:var(--mono);font-size:12px;color:var(--cyan);
+    background:var(--cyan-dim);border:1px solid rgba(56,225,255,.25);
+    padding:5px 12px;border-radius:999px;
+  }
+  .tag.v{color:var(--violet);background:var(--violet-dim);border-color:rgba(139,124,255,.3);}
+
+  .avatar-box{position:relative;flex:0 0 auto;}
+  .avatar{
+    width:216px;height:216px;border-radius:22px;overflow:hidden;position:relative;
+    border:1px solid var(--line-strong);
+    background:linear-gradient(150deg,rgba(56,225,255,.16),rgba(139,124,255,.14));
+    box-shadow:0 0 0 6px rgba(56,225,255,.05),0 24px 60px -18px rgba(56,225,255,.28);
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+  .avatar .ph{
+    position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+    font-size:72px;font-weight:700;color:var(--cyan);
+    font-family:var(--sans);text-shadow:0 0 30px rgba(56,225,255,.5);
+  }
+  .avatar.noimg .ph{display:flex;}
+  .avatar-frame{
+    position:absolute;inset:-9px;border-radius:26px;pointer-events:none;
+    border:1px dashed rgba(56,225,255,.3);
+  }
+  .avatar-deco{
+    position:absolute;right:-16px;bottom:18px;
+    font-family:var(--mono);font-size:10.5px;color:var(--muted);
+    background:rgba(7,11,20,.9);border:1px solid var(--line);
+    padding:4px 10px;border-radius:8px;white-space:nowrap;
+  }
+  @media(max-width:860px){.avatar{width:172px;height:172px;}}
+
+  .links{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    text-decoration:none;font-size:13.5px;padding:9px 18px;border-radius:10px;
+    border:1px solid var(--line-strong);color:var(--ink-2);
+    background:var(--panel);transition:.18s;
+  }
+  .btn:hover{color:var(--cyan);border-color:rgba(56,225,255,.5);background:var(--cyan-dim);transform:translateY(-1px);}
+  .btn svg{width:15px;height:15px;}
+
+  /* 统计条 */
+  .stats{
+    margin-top:46px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  }
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr);}}
+  .stat{
+    border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--panel);padding:16px 18px;position:relative;overflow:hidden;
+  }
+  .stat::after{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--cyan),transparent);}
+  .stat b{font-family:var(--mono);font-size:26px;color:var(--ink);display:block;line-height:1.2;}
+  .stat b em{font-style:normal;color:var(--cyan);}
+  .stat span{font-size:12px;color:var(--muted);}
+
+  /* ---------- News ---------- */
+  .news-list{border-left:1px solid var(--line);margin-left:6px;}
+  .news-item{position:relative;padding:0 0 22px 26px;}
+  .news-item::before{
+    content:"";position:absolute;left:-4.5px;top:9px;width:8px;height:8px;border-radius:50%;
+    background:var(--cyan);box-shadow:0 0 12px rgba(56,225,255,.8);
+  }
+  .news-item:first-child::before{background:var(--amber);box-shadow:0 0 12px rgba(255,196,107,.8);}
+  .news-date{font-family:var(--mono);font-size:12px;color:var(--cyan);margin-right:12px;}
+  .news-item:first-child .news-date{color:var(--amber);}
+  .news-text{color:var(--ink-2);font-size:14.5px;}
+  .news-text a{color:var(--cyan);text-decoration:none;border-bottom:1px dashed rgba(56,225,255,.4);}
+  .news-text a:hover{border-bottom-style:solid;}
+
+  /* ---------- Research ---------- */
+  .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media(max-width:900px){.res-grid{grid-template-columns:1fr;}}
+  .res-card{
+    border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--panel);padding:26px 24px;position:relative;overflow:hidden;
+    transition:.22s;
+  }
+  .res-card::before{
+    content:"";position:absolute;top:0;left:24px;right:24px;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(56,225,255,.55),transparent);
+    opacity:0;transition:.22s;
+  }
+  .res-card:hover{transform:translateY(-3px);background:var(--panel-hover);border-color:var(--line-strong);}
+  .res-card:hover::before{opacity:1;}
+  .res-icon{
+    width:42px;height:42px;border-radius:11px;margin-bottom:18px;
+    background:var(--cyan-dim);border:1px solid rgba(56,225,255,.25);
+    display:flex;align-items:center;justify-content:center;color:var(--cyan);
+  }
+  .res-card h3{font-size:17px;margin-bottom:2px;}
+  .res-card .en{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:14px;letter-spacing:.04em;}
+  .res-card p{font-size:13.5px;color:var(--ink-2);margin-bottom:16px;}
+  .res-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;}
+  .res-tags span{font-size:11.5px;color:var(--ink-2);border:1px solid var(--line);padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.02);}
+  .res-rep{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:12px;}
+  .res-rep b{color:var(--ink-2);font-weight:600;display:block;font-size:12px;margin-bottom:3px;font-family:var(--mono);letter-spacing:.06em;}
+  .res-rep a{color:var(--cyan);text-decoration:none;}
+
+  /* ---------- Publications ---------- */
+  .filter{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap;}
+  .chip{
+    font-family:var(--mono);font-size:12.5px;color:var(--ink-2);cursor:pointer;
+    border:1px solid var(--line);background:var(--panel);
+    padding:7px 16px;border-radius:999px;transition:.16s;user-select:none;
+  }
+  .chip:hover{border-color:var(--line-strong);color:var(--ink);}
+  .chip.on{color:#04121A;background:var(--cyan);border-color:var(--cyan);font-weight:600;box-shadow:0 0 16px rgba(56,225,255,.35);}
+  .year-head{
+    display:flex;align-items:center;gap:14px;margin:34px 0 14px;
+  }
+  .year-head:first-of-type{margin-top:0;}
+  .year-head b{
+    font-family:var(--mono);font-size:20px;color:var(--cyan);font-weight:700;
+    text-shadow:0 0 18px rgba(56,225,255,.45);
+  }
+  .year-head i{flex:1;height:1px;background:linear-gradient(90deg,var(--line-strong),transparent);}
+  .year-head span{font-family:var(--mono);font-size:11.5px;color:var(--muted);}
+
+  .pub{
+    display:flex;gap:16px;
+    border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--panel);padding:18px 20px;margin-bottom:10px;
+    transition:.18s;
+  }
+  .pub:hover{background:var(--panel-hover);border-color:var(--line-strong);transform:translateX(3px);}
+  .pub-no{
+    font-family:var(--mono);font-size:12px;color:var(--muted);flex:0 0 44px;
+    padding-top:3px;
+  }
+  .pub-body{flex:1;min-width:0;}
+  .pub-title{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.5;margin-bottom:6px;}
+  .pub-authors{font-size:13px;color:var(--muted);margin-bottom:7px;}
+  .pub-authors .me{color:var(--cyan);font-weight:600;}
+  .pub-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+  .venue{font-size:12.5px;color:var(--ink-2);font-style:italic;}
+  .badge{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+    padding:2.5px 9px;border-radius:6px;white-space:nowrap;
+  }
+  .badge.journal{color:#7EE7A8;background:rgba(126,231,168,.1);border:1px solid rgba(126,231,168,.3);}
+  .badge.conf{color:var(--violet);background:var(--violet-dim);border:1px solid rgba(139,124,255,.3);}
+  .badge.top{color:var(--amber);background:rgba(255,196,107,.1);border:1px solid rgba(255,196,107,.35);}
+  .pub-links{display:flex;gap:8px;margin-top:10px;}
+  .plink{
+    font-family:var(--mono);font-size:11.5px;color:var(--cyan);text-decoration:none;
+    border:1px solid rgba(56,225,255,.3);background:var(--cyan-dim);
+    padding:3.5px 12px;border-radius:7px;transition:.15s;
+  }
+  .plink:hover{background:rgba(56,225,255,.22);}
+  .pub-star{color:var(--amber);font-size:12px;margin-left:4px;}
+
+  /* ---------- Team ---------- */
+  .team-sub{font-family:var(--mono);font-size:12.5px;color:var(--cyan);margin:26px 0 14px;letter-spacing:.1em;}
+  .team-sub:first-of-type{margin-top:0;}
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}
+  .stu{
+    border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--panel);padding:16px;display:flex;gap:13px;align-items:flex-start;
+    transition:.18s;
+  }
+  .stu:hover{background:var(--panel-hover);border-color:var(--line-strong);}
+  .stu-avatar{
+    width:46px;height:46px;border-radius:12px;flex:0 0 auto;overflow:hidden;position:relative;
+    background:linear-gradient(135deg,rgba(56,225,255,.18),rgba(139,124,255,.16));
+    border:1px solid var(--line-strong);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:18px;color:var(--cyan);
+  }
+  .stu-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .stu b{font-size:14.5px;display:block;}
+  .stu .en{font-family:var(--mono);font-size:10.5px;color:var(--muted);display:block;margin-bottom:3px;}
+  .stu .dir{font-size:12px;color:var(--ink-2);display:block;line-height:1.55;}
+  .stu .meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);}
+  .stu .dest{font-size:11.5px;color:var(--amber);display:block;margin-top:3px;}
+  .stu .dest::before{content:"→ ";font-family:var(--mono);}
+
+  /* ---------- Contact ---------- */
+  .contact-card{
+    border:1px solid var(--line);border-radius:18px;
+    background:linear-gradient(140deg,rgba(56,225,255,.07),rgba(139,124,255,.06) 60%,transparent);
+    padding:38px 34px;display:grid;grid-template-columns:1.2fr 1fr;gap:34px;align-items:center;
+    position:relative;overflow:hidden;
+  }
+  .contact-card::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(120,160,220,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,220,.05) 1px,transparent 1px);
+    background-size:32px 32px;
+    mask-image:radial-gradient(ellipse at 20% 0%,#000,transparent 70%);
+    -webkit-mask-image:radial-gradient(ellipse at 20% 0%,#000,transparent 70%);
+  }
+  @media(max-width:820px){.contact-card{grid-template-columns:1fr;}}
+  .contact-card h3{font-size:21px;margin-bottom:10px;}
+  .contact-card p{font-size:14px;color:var(--ink-2);}
+  .contact-list{display:flex;flex-direction:column;gap:10px;}
+  .contact-item{
+    display:flex;align-items:center;gap:12px;
+    border:1px solid var(--line);border-radius:10px;
+    background:rgba(7,11,20,.5);padding:11px 16px;
+    color:var(--ink-2);text-decoration:none;font-size:13.5px;transition:.16s;
+  }
+  .contact-item:hover{border-color:rgba(56,225,255,.45);color:var(--cyan);}
+  .contact-item svg{width:16px;height:16px;color:var(--cyan);flex:0 0 auto;}
+  .contact-item span{font-family:var(--mono);font-size:12.5px;word-break:break-all;}
+
+  footer{
+    margin-top:80px;border-top:1px solid var(--line);
+    padding:26px 0 40px;
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  }
+  footer a{color:var(--muted);text-decoration:none;}
+  footer a:hover{color:var(--cyan);}
+
+  /* 进场动画 */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+</style>
+</head>
+<body>
+<div class="bg-deco"></div>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="logo" href="#top">
+      <span class="logo-mark">Z</span>
+      <span>郑申海<small>Shenhai Zheng</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#news"><b>01</b>最新动态</a>
+      <a href="#research"><b>02</b>研究方向</a>
+      <a href="#pubs"><b>03</b>学术成果</a>
+      <a href="#team"><b>04</b>团队成员</a>
+      <a href="#contact"><b>05</b>联系我们</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div>
+      <div class="hello">$ whoami</div>
+      <h1>郑申海<span class="en">Shenhai Zheng · Ph.D.</span></h1>
+      <div class="role"><i></i>重庆邮电大学 计算机科学与技术学院 · 教师</div>
+      <div class="bio" id="bio"></div>
+      <div class="tags">
+        <span class="tag">医学图像分割</span>
+        <span class="tag">联邦学习</span>
+        <span class="tag v">多模态学习</span>
+        <span class="tag v">模式识别</span>
+      </div>
+      <div class="links" id="hero-links"></div>
+    </div>
+    <div class="avatar-box">
+      <div class="avatar-frame"></div>
+      <div class="avatar" id="avatar">
+        <img id="avatar-img" alt="郑申海">
+        <div class="ph">郑</div>
+      </div>
+      <div class="avatar-deco">CQUPT · CHONGQING</div>
+    </div>
+  </header>
+
+  <div class="stats reveal" id="stats"></div>
+
+  <!-- ============ NEWS ============ -->
+  <section id="news">
+    <div class="sec-tag reveal">latest news</div>
+    <h2 class="reveal">最新动态<span>NEWS</span></h2>
+    <div class="news-list" id="news-list"></div>
+  </section>
+
+  <!-- ============ RESEARCH ============ -->
+  <section id="research">
+    <div class="sec-tag reveal">research interests</div>
+    <h2 class="reveal">研究方向<span>RESEARCH</span></h2>
+    <div class="res-grid" id="res-grid"></div>
+  </section>
+
+  <!-- ============ PUBLICATIONS ============ -->
+  <section id="pubs">
+    <div class="sec-tag reveal">publications</div>
+    <h2 class="reveal">学术成果<span>PUBLICATIONS · 按年份自动分组，最新在前</span></h2>
+
+    <div id="selected-block"></div>
+
+    <div class="filter" id="filter">
+      <span class="chip on" data-f="all">全部</span>
+      <span class="chip" data-f="journal">期刊论文</span>
+      <span class="chip" data-f="conference">会议论文</span>
+    </div>
+    <div id="pub-list"></div>
+  </section>
+
+  <!-- ============ TEAM ============ -->
+  <section id="team">
+    <div class="sec-tag reveal">team</div>
+    <h2 class="reveal">团队成员<span>TEAM</span></h2>
+    <div id="team-block"></div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact">
+    <div class="sec-tag reveal">contact</div>
+    <h2 class="reveal">联系我们<span>CONTACT · 欢迎报考</span></h2>
+    <div class="contact-card reveal">
+      <div>
+        <h3>欢迎报考硕士研究生</h3>
+        <p>课题组长期招收对<b style="color:var(--cyan)">医学图像分割、联邦学习、多模态学习</b>方向感兴趣的硕士研究生。如果你对人工智能与智慧医疗交叉领域有热情，欢迎邮件联系，并附上个人简历与成绩单。</p>
+      </div>
+      <div class="contact-list" id="contact-list"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 2025–<span id="fy"></span> 郑申海 · 重庆邮电大学</div>
+    <div>last updated: <span id="fup"></span> · powered by <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub&nbsp;Pages</a></div>
+  </footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+/* ============ 工具 ============ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+const ICONS = {
+  scholar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13.5"/><path d="M12 7v8m0 0-3-3m3 3 3-3"/></svg>',
+  dblp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h10M7 17h6"/></svg>',
+  github:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.69-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.53-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.7 5.38-5.26 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>',
+  mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
+  scan:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/><circle cx="12" cy="12" r="3.2"/></svg>',
+  network:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><circle cx="12" cy="5" r="2.2"/><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="18" r="2.2"/><path d="M12 7.2 6.4 16m5.6-8.8L17.6 16M7.2 18h9.6"/></svg>',
+  layers:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/><path d="m3 17.5 9 5 9-5" opacity=".45"/></svg>'
+};
+
+/* ============ Hero ============ */
+$("#bio").innerHTML = SITE.bio.map(p=>`<p>${esc(p)}</p>`).join("");
+
+const AV = $("#avatar-img");
+AV.src = SITE.avatar;
+AV.onerror = () => { AV.remove(); $("#avatar").classList.add("noimg"); };
+
+const LINK_DEFS = [
+  {k:"scholar", label:"Google Scholar", url:SITE.links.scholar, icon:ICONS.scholar},
+  {k:"dblp", label:"DBLP", url:SITE.links.dblp, icon:ICONS.dblp},
+  {k:"github", label:"GitHub", url:SITE.links.github, icon:ICONS.github},
+  {k:"email", label:SITE.links.email, url:"mailto:"+SITE.links.email, icon:ICONS.mail},
+];
+$("#hero-links").innerHTML = LINK_DEFS.map(l=>
+  `<a class="btn" href="${l.url}" ${l.k==="email"?"":"target=\"_blank\" rel=\"noopener\""}>${l.icon}${esc(l.label)}</a>`).join("");
+
+/* 统计（自动从成果数据计算） */
+const pubs = window.PUBLICATIONS || [];
+const nJournal = pubs.filter(p=>p.type==="journal").length;
+const nConf = pubs.filter(p=>p.type==="conference").length;
+const nTMI = pubs.filter(p=>/IEEE Transactions on Medical Imaging|IEEE TMI/i.test(p.venue)).length;
+$("#stats").innerHTML = [
+  {n:pubs.length, s:"发表论文（篇）"},
+  {n:nJournal, s:"期刊论文", em:1},
+  {n:nTMI, s:"IEEE TMI（篇）", em:1},
+  {n:(window.STUDENTS?STUDENTS.current.length:0), s:"在读研究生"},
+].map(x=>`<div class="stat"><b>${x.em?"<em>"+x.n+"</em>":x.n}</b><span>${x.s}</span></div>`).join("");
+
+/* ============ News ============ */
+$("#news-list").innerHTML = (window.NEWS||[]).map(n=>{
+  const link = n.link ? ` <a href="${n.link.url}" target="_blank" rel="noopener">[${esc(n.link.label)}]</a>` : "";
+  return `<div class="news-item"><span class="news-date">[${esc(n.date)}]</span><span class="news-text">${esc(n.text)}${link}</span></div>`;
+}).join("");
+
+/* ============ Research ============ */
+$("#res-grid").innerHTML = (window.RESEARCH||[]).map(r=>`
+  <div class="res-card reveal">
+    <div class="res-icon">${ICONS[r.icon]||ICONS.scan}</div>
+    <h3>${esc(r.title)}</h3>
+    <div class="en">${esc(r.en||"")}</div>
+    <p>${esc(r.desc)}</p>
+    <div class="res-tags">${(r.tags||[]).map(t=>`<span>${esc(t)}</span>`).join("")}</div>
+    <div class="res-rep"><b>代表成果 / REPRESENTATIVE WORK</b>${esc(r.paper)}${r.link?` · <a href="${r.link}" target="_blank" rel="noopener">代码</a>`:""}</div>
+  </div>`).join("");
+
+/* ============ Publications ============ */
+const TOP_JOURNALS = /IEEE Transactions on Medical Imaging|IEEE TMI|Pattern Recognition|Neurocomputing|Physics in Medicine|Biomedical Signal/i;
+
+function pubHTML(p, no, star){
+  const authors = p.authors.split(/\s*,\s*/).map(a=>
+    a === p.me ? `<span class="me">${esc(a)}</span>` : esc(a)).join(", ");
+  const links = (p.links||[]).map(l=>
+    `<a class="plink" href="${l.url}" target="_blank" rel="noopener">${esc(l.label)} →</a>`).join("");
+  const top = p.type==="journal" && TOP_JOURNALS.test(p.venue);
+  return `<div class="pub">
+    <div class="pub-no">[${no}]</div>
+    <div class="pub-body">
+      <div class="pub-title">${esc(p.title)}${star?'<span class="pub-star">★</span>':""}</div>
+      <div class="pub-authors">${authors}</div>
+      <div class="pub-meta">
+        <span class="badge ${p.type==="journal"?"journal":"conf"}">${p.type==="journal"?"JOURNAL":"CONFERENCE"}</span>
+        ${top?'<span class="badge top">HIGH-IMPACT</span>':""}
+        <span class="venue">${esc(p.venue)}, ${p.year}</span>
+      </div>
+      ${links?`<div class="pub-links">${links}</div>`:""}
+    </div>
+  </div>`;
+}
+
+/* 精选成果 */
+const selected = pubs.filter(p=>p.selected);
+if(selected.length){
+  $("#selected-block").innerHTML = `
+    <div class="team-sub" style="margin-top:0">★ 精选成果 / SELECTED PUBLICATIONS（在 data.js 中标记 selected: true 即可上这里）</div>
+    ${selected.map((p,i)=>pubHTML(p, i+1, true)).join("")}
+    <div style="height:34px"></div>`;
+}
+
+/* 全部成果：按年份分组（新→旧），组内按数组顺序，全局倒序编号 */
+let f = "all";
+function renderPubs(){
+  const list = pubs.filter(p => f==="all" || p.type===f);
+  const years = [...new Set(list.map(p=>p.year))].sort((a,b)=>b-a);
+  let no = list.length; // 最新一条编号最大（倒序编号，与“最新在前”一致）
+  $("#pub-list").innerHTML = years.map(y=>{
+    const items = list.filter(p=>p.year===y);
+    const rows = items.map(p=>pubHTML(p, no--, false)).join("");
+    return `<div class="year-head"><b>${y}</b><i></i><span>${items.length} 篇</span></div>${rows}`;
+  }).join("") || `<p style="color:var(--muted)">暂无该类型成果。</p>`;
+}
+renderPubs();
+$("#filter").addEventListener("click", e=>{
+  const c = e.target.closest(".chip"); if(!c) return;
+  document.querySelectorAll("#filter .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on"); f = c.dataset.f; renderPubs();
+});
+
+/* ============ Team ============ */
+(function(){
+  const S = window.STUDENTS || {current:[],alumni:[]};
+  const card = (s)=>`
+    <div class="stu reveal">
+      <div class="stu-avatar">${s.photo?`<img src="${s.photo}" onerror="this.remove()">`:""}<span>${esc(s.name[0])}</span></div>
+      <div>
+        <b>${esc(s.name)}</b>
+        <span class="en">${esc(s.en||"")} · ${esc(s.degree||"")}${s.period?" · "+esc(s.period):""}</span>
+        <span class="dir">${esc(s.direction||"")}</span>
+        ${s.destination?`<span class="dest">${esc(s.destination)}</span>`:""}
+      </div>
+    </div>`;
+  $("#team-block").innerHTML =
+    `<div class="team-sub">在读研究生 / CURRENT MEMBERS · ${S.current.length} 人</div>
+     <div class="team-grid">${S.current.map(card).join("")}</div>
+     <div class="team-sub" style="margin-top:34px">已毕业 / ALUMNI · ${S.alumni.length} 人</div>
+     <div class="team-grid">${S.alumni.map(card).join("")}</div>`;
+})();
+
+/* ============ Contact ============ */
+$("#contact-list").innerHTML = LINK_DEFS.map(l=>
+  `<a class="contact-item" href="${l.url}" ${l.k==="email"?"":'target="_blank" rel="noopener"'}>${l.icon}<span>${esc(l.label)}</span></a>`).join("");
+
+/* ============ Footer & 动画 ============ */
+$("#fy").textContent = new Date().getFullYear();
+$("#fup").textContent = SITE.updated || "";
+
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+},{threshold:.08});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
